@@ -134,7 +134,7 @@ jobs:
       with:
         inlineScript: |
           az group create --location "${{ github.event.inputs.LOCATION }}" --name "${{ env.resourceGroupName }}"
-          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.datafactory.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.datafactory.json --parameters dataFactoryName="${{ github.event.inputs.DATA_FACTORY_NAME }}"
+          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.datafactory.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.datafactory.json --parameters factoryName="${{ github.event.inputs.DATA_FACTORY_NAME }}"
     # Download KeyVault Secrets
     - name: Download KeyVault Secrets
       uses: Azure/get-keyvault-secrets@v1.0

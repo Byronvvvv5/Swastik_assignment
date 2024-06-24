@@ -183,7 +183,7 @@ jobs:
       with:
         inlineScript: |
           az group create --location 'West Europe' --name ${{ env.resourceGroupName }} # Ensure location matches your requirements
-          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.adf.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.adf.json --parameters dataFactoryName=${{ env.dataFactoryName }}
+          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.adf.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.adf.json --parameters factoryName=${{ env.dataFactoryName }}
 
     # Download KeyVault Secrets
     - name: Download KeyVault Secrets
