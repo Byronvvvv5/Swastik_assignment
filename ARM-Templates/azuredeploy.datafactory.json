@@ -1,15 +1,20 @@
 {
-	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": {
+				"description":"Data Factory name"
+			},
 			"defaultValue": "DataFactory-Swastik"
 		},
+		
 		"MySqlService_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'MySqlService'"
+			"type": "securestring",
+			"metadata": {
+				"description":"Secure string for 'password' of 'MySqlService'"
+			}
 		},
 		"Landing_Blob_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -39,7 +44,9 @@
 		{
 			"type": "Microsoft.DataFactory/factories",
 			"apiVersion": "2018-06-01",
-			"name": "[parameters('factoryName')]"
+			"name": "[parameters('factoryName')]",
+			"location": "[resourceGroup().location]",
+			"properties": {}
 		}
 	]
 }
