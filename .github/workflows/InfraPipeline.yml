@@ -87,6 +87,7 @@ jobs:
       resourceGroupName: '${{ github.event.inputs.RESOURCE_GROUP }}-Dev'
       databricksWorkspaceName: '${{ github.event.inputs.WORKSPACE_NAME }}-Dev'
       keyVaultName: '${{ github.event.inputs.KEY_VAULT_NAME }}-Dev'
+      datafactoryName: '${{ github.event.inputs.DATA_FACTORY_NAME }}-Dev'
 
     steps:
     # Show the environment variables for debugging
@@ -134,7 +135,7 @@ jobs:
       with:
         inlineScript: |
           az group create --location "${{ github.event.inputs.LOCATION }}" --name "${{ env.resourceGroupName }}"
-          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.datafactory.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.datafactory.json --parameters factoryName="${{ github.event.inputs.DATA_FACTORY_NAME }}"
+          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.datafactory.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.datafactory.json --parameters factoryName="${{ env.datafactoryName }}"
     # Download KeyVault Secrets
     - name: Download KeyVault Secrets
       uses: Azure/get-keyvault-secrets@v1.0
