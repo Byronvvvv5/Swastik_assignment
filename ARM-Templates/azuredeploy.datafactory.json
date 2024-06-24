@@ -5,7 +5,7 @@
 		"factoryName": {
 			"type": "string",
 			"metadata": "Data Factory name",
-			"defaultValue": "Landing-ADF"
+			"defaultValue": "DataFactory-Swastik"
 		},
 		"MySqlService_password": {
 			"type": "secureString",
