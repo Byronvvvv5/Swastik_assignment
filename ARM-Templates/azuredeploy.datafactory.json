@@ -39,9 +39,7 @@
 		{
 			"type": "Microsoft.DataFactory/factories",
 			"apiVersion": "2018-06-01",
-			"name": "[parameters('factoryName')]",
-			"location": "[parameters('location')]",
-			"properties": {}
+			"name": "[parameters('factoryName')]"
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Swastik_pipeline')]",
