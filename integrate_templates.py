@@ -36,7 +36,7 @@ for json_file in pipeline_json_files:
         new_resources['type'] = 'pipelines'
         resources.append(new_resources)
 
-with open('arm-templates/azuredeploy.datafactory.json', 'r') as arm_template_file:
+with open('ARM-Templates/azuredeploy.datafactory.json', 'r') as arm_template_file:
     existing_template = json.load(arm_template_file)
     existing_resources = existing_template['resources']
 
@@ -57,5 +57,5 @@ for resource in new_resources:
 
 
 # Save the modified ARM template
-with open('arm-templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:
+with open('ARM-Templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:
     json.dump(arm_template, modified_arm_template_file, indent=4)
