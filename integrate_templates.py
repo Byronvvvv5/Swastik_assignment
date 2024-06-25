@@ -11,30 +11,30 @@ integrationRuntime_path = 'integrationRuntimes/*.json'
 linkedservice_json_files = glob.glob(linkedservice_path)
 for json_file in linkedservice_json_files:
     with open(json_file) as file:
-        new_resources = json.load(file)
-        new_resources['type'] = 'linkedServices'
-        resources.append(new_resources)
+        new_resource = json.load(file)
+        new_resource['type'] = 'linkedServices'
+        resources.append(new_resource)
 
 datasets_json_files = glob.glob(datasets_path)
 for json_file in datasets_json_files:
     with open(json_file) as file:
-        new_resources = json.load(file)
-        new_resources['type'] = 'datasets'
-        resources.append(new_resources)
+        new_resource = json.load(file)
+        new_resource['type'] = 'datasets'
+        resources.append(new_resource)
 
 integrationRuntime_json_files = glob.glob(integrationRuntime_path)
 for json_file in integrationRuntime_json_files:
     with open(json_file) as file:
-        new_resources = json.load(file)
-        new_resources['type'] = 'integrationRuntimes'
-        resources.append(new_resources)
-
+        new_resource = json.load(file)
+        new_resource['type'] = 'integrationRuntimes'
+        resources.append(new_resource)
+print(f"Stepcheck: {resources}")
 pipeline_json_files = glob.glob(pipeline_path)
 for json_file in pipeline_json_files:
     with open(json_file) as file:
-        new_resources = json.load(file)
-        new_resources['type'] = 'pipelines'
-        resources.append(new_resources)
+        new_resource = json.load(file)
+        new_resource['type'] = 'pipelines'
+        resources.append(new_resource)
 
 
 with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
@@ -43,9 +43,9 @@ with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
 # Update ARM template with new resources
 for resource in resources:
     arm_template['resources'].append({
-        "type": "Microsoft.DataFactory/factories/resource['type']",
+        "type": f"Microsoft.DataFactory/factories/{resource['type']}",
         "apiVersion": "2018-06-01",
-        "name": "[concat(parameters('factoryName'), '/', resource['name'])]",
+        "name": f"[concat(parameters('factoryName'), '/', {resource['name']})]",
         "properties": resource['properties']
     })
 
