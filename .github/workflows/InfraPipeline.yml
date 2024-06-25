@@ -105,7 +105,11 @@ jobs:
         name: 'ARM-Templates'
         path: ${{ github.workspace }}/ARM-Templates
 
-        
+    # Display ARM Template for debugging
+    - name: Display ARM Template
+      run: cat ${{ github.workspace }}/ARM-Templates/azuredeploy.datafactory.json
+         
+
     # Login to Azure
     - name: Login via Az module
       uses: azure/login@v1.1
