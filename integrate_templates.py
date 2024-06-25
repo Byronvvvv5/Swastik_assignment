@@ -39,14 +39,13 @@ for json_file in pipeline_json_files:
 
 with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
     arm_template = json.load(arm_template_file)
-    factory_name = arm_template['parameters']['factoryName']
 
 # Update ARM template with new resources
 for resource in resources:
     arm_template['resources'].append({
         "type": f"Microsoft.DataFactory/factories/{resource['type']}",
         "apiVersion": "2018-06-01",
-        "name": f"{factory_name}/{resource['name']}",
+        "name": f"[concat(parameters('factoryName'), '/', {resource['name']}]",
         "properties": resource['properties']
     })
 
