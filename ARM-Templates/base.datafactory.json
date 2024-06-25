@@ -7,7 +7,7 @@
 			"metadata": {
 				"description":"Data Factory name"
 			},
-			"defaultValue": "DataFactory-Swastik-Dev"
+			"defaultValue": "DataFactory-Swastik"
 		},
 		
 		"MySqlService_password": {
@@ -40,5 +40,13 @@
 	"variables": {
 		"factoryId": "Microsoft.DataFactory/factories/{parameters('factoryName')}"
 	},
-	"resources": []
+	"resources": [
+		{
+			"type": "Microsoft.DataFactory/factories",
+			"apiVersion": "2018-06-01",
+			"name": "[parameters('factoryName')]",
+			"location": "[resourceGroup().location]",
+			"properties": {}
+		}
+	]
 }
