@@ -3,7 +3,7 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"factoryName": {
-			"value": "DataFactory-Swastik"
+			"value": "DataFactory-Swastik-Dev"
 		},
 		"MySqlService_password": {
 			"value": ""
