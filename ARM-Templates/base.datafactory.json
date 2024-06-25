@@ -44,7 +44,7 @@
 		{
 			"type": "Microsoft.DataFactory/factories",
 			"apiVersion": "2018-06-01",
-			"name": "[parameters('factoryName')]",
+			"name": "{parameters('factoryName')}",
 			"location": "[resourceGroup().location]",
 			"properties": {}
 		}
