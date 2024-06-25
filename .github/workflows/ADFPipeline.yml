@@ -62,8 +62,8 @@ jobs:
         azPSVersion: '3.1.0'
 
     # Integrate JSON into ARM Template
-    - name: Integrate JSON into ARM Template
-      run: python ${{ github.workspace }}/integrate_templates.py
+    #- name: Integrate JSON into ARM Template
+      #run: python ${{ github.workspace }}/integrate_templates.py
 
     # Publish Artifact: ARM-Templates
     - name: 'Publish Artifact: ARM-Templates' 
