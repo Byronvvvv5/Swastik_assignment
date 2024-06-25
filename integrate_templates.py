@@ -45,7 +45,7 @@ for resource in resources:
     arm_template['resources'].append({
         "type": f"Microsoft.DataFactory/factories/{resource['type']}",
         "apiVersion": "2018-06-01",
-        "name": f"[concat(parameters('factoryName'), '/', '{resource['name']}']",
+        "name": f"[concat(parameters('factoryName'), '/', '{resource['name']}')]",
         "properties": resource['properties']
     })
 
