@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DataFactory-Swastik"
+		},
+		"MySqlService_password": {
+			"value": ""
+		},
+		"Landing_Blob_properties_typeProperties_connectionString_secretName": {
+			"value": "Landing-Blob"
+		},
+		"Landing_KeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://KeyVault-Landing-Blob.vault.azure.net/"
+		},
+		"MySqlService_properties_typeProperties_server": {
+			"value": "localhost"
+		},
+		"MySqlService_properties_typeProperties_database": {
+			"value": "swastik_test"
+		},
+		"MySqlService_properties_typeProperties_username": {
+			"value": "root"
+		}
+	}
+}

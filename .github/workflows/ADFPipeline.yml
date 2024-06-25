@@ -1,0 +1,119 @@
+name: ADF-CI-CD
+
+
+on:
+# Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ ADF ]
+ 
+  workflow_dispatch:
+    inputs:
+      # This is the path of adf_publish branch where new pipeline and datasets are published
+      GIT_NOTEBOOK_PATH:
+        description: 'Pulish Relative Path in Git'
+        required: true
+        default: '.'
+        
+      # This resource group for the Databricks workspace and KeyVault
+      RESOURCE_GROUP:
+        description: 'Resource Group Name'
+        required: true
+        default: 'Databricks-Swastik'
+
+      # The Azure region to which to deploy your resources
+      LOCATION:
+        description: 'Azure Region'
+        required: true
+        default: 'West Europe'
+ 
+      DATA_FACTORY_NAME:
+        description: 'Data Factory name'
+        required: true
+        default: 'DataFactory-Swastik'
+
+      # This is a KeyVault for holding the Service Principal to make Databricks API calls and to hold Databricks KeyVault backed Secrets
+      SUBSCRIPTION_ID:
+        description: 'Azure Subscription Id'
+        required: true
+        default: '00000000-0000-0000-0000-000000000000'
+
+
+jobs:
+  #############################################################
+  # Builds the code
+  # This is packaging up the files from Git to the Artifacts files
+  #############################################################
+  Build:
+    runs-on: ubuntu-latest
+
+    # Checkout code
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ADF
+
+    # Show the environment variables for debugging
+    - name: Display Environment Variable
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          dir env:
+        azPSVersion: '3.1.0'
+
+    # Integrate JSON into ARM Template
+    - name: Integrate JSON into ARM Template
+      run: python ${{ github.workspace }}/integrate_templates.py
+
+    # Publish Artifact: ARM-Templates
+    - name: 'Publish Artifact: ARM-Templates' 
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'ARM-Templates'
+        path: '${{ github.workspace }}/ARM-Templates'
+
+  
+#############################################################
+# Deploy to Dev
+#############################################################
+  Dev:
+    needs: Build
+    runs-on: ubuntu-latest
+    env:
+      resourceGroupName: '${{ github.event.inputs.RESOURCE_GROUP }}-Dev'      
+      datafactoryName: '${{ github.event.inputs.DATA_FACTORY_NAME }}-Dev'
+
+    steps:
+    # Show the environment variables for debugging
+    - name: Display Environment Variable
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          dir env:
+        azPSVersion: '3.1.0'        
+
+    # Download Artifact: ARM-Templates
+    - name: 'Download Artifact: ARM-Templates' 
+      uses: actions/download-artifact@v2
+      with:
+        name: 'ARM-Templates'
+        path: ${{ github.workspace }}/ARM-Templates
+
+    # Display ARM Template for debugging
+    - name: Display ARM Template
+      run: cat ${{ github.workspace }}/ARM-Templates/azuredeploy.datafactory.json
+          
+    # Login to Azure
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    # Deploy Azure Data Factory
+    - name: Deploy ARM Template (Data Factory)
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az group create --location "${{ github.event.inputs.LOCATION }}" --name "${{ env.resourceGroupName }}"
+          az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.datafactory.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.datafactory.json --parameters factoryName="${{ env.datafactoryName }}"
+
