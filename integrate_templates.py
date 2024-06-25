@@ -59,3 +59,6 @@ for resource in new_resources:
 # Save the modified ARM template
 with open('ARM-Templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:
     json.dump(arm_template, modified_arm_template_file, indent=4)
+with open('ARM-Templates/azuredeploy.datafactory.json', 'r') as modified_arm_template_file:
+    check_template = json.load(modified_arm_template_file)
+print(f'Integration of new resources completed successfully!\n{check_template}')
