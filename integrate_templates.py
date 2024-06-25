@@ -43,16 +43,16 @@ with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
 # Update ARM template with new resources
 for resource in resources:
     arm_template['resources'].append({
-        "type": "Microsoft.DataFactory/factories/resources['type']",
+        "type": "Microsoft.DataFactory/factories/resource['type']",
         "apiVersion": "2018-06-01",
-        "name": "[concat(parameters('factoryName'), '/', resources['name'])]",
-        "properties": resources['properties']
+        "name": "[concat(parameters('factoryName'), '/', resource['name'])]",
+        "properties": resource['properties']
     })
 
 # Save the modified ARM template
 with open('ARM-Templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:    
     json.dump(arm_template, modified_arm_template_file, indent=4)
-    
+
 with open('ARM-Templates/azuredeploy.datafactory.json', 'r') as modified_arm_template_file:
     check_template = json.load(modified_arm_template_file)
 print(f'Integration of new resources completed successfully!\n{resources}\n{check_template}')
