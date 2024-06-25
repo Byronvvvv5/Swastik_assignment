@@ -36,29 +36,23 @@ for json_file in pipeline_json_files:
         new_resources['type'] = 'pipelines'
         resources.append(new_resources)
 
-with open('ARM-Templates/azuredeploy.datafactory.json', 'r') as arm_template_file:
-    existing_template = json.load(arm_template_file)
-    existing_resources = existing_template['resources']
 
-new_resources = [res for res in resources if res not in existing_resources]
-update_resources = [res for res in resources if res in existing_resources]
-
-# Update ARM template with new resources
-with open('ARM-Templates/base.datafactory.json') as arm_template_file:
+with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
     arm_template = json.load(arm_template_file)
 
-for resource in new_resources:
+# Update ARM template with new resources
+for resource in resources:
     arm_template['resources'].append({
-    "type": "Microsoft.DataFactory/factories/resources['type']",
-    "apiVersion": "2018-06-01",
-    "name": "[concat(parameters('factoryName'), '/', resources['name'])]",
-    "properties": resources['properties']
-})
-
+        "type": "Microsoft.DataFactory/factories/resources['type']",
+        "apiVersion": "2018-06-01",
+        "name": "[concat(parameters('factoryName'), '/', resources['name'])]",
+        "properties": resources['properties']
+    })
 
 # Save the modified ARM template
-with open('ARM-Templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:
+with open('ARM-Templates/azuredeploy.datafactory.json', 'w') as modified_arm_template_file:    
     json.dump(arm_template, modified_arm_template_file, indent=4)
+    
 with open('ARM-Templates/azuredeploy.datafactory.json', 'r') as modified_arm_template_file:
     check_template = json.load(modified_arm_template_file)
-print(f'Integration of new resources completed successfully!\n{check_template}')
+print(f'Integration of new resources completed successfully!\n{resources}\n{check_template}')

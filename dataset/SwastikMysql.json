@@ -1,0 +1,15 @@
+{
+	"name": "SwastikMysql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MySqlService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "MySqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "`test_database_meta`"
+		}
+	}
+}

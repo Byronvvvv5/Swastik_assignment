@@ -1,0 +1,10 @@
+{
+	"name": "Landing_KeyVault",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KeyVault-Landing-Blob.vault.azure.net/"
+		}
+	}
+}
