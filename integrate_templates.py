@@ -3,10 +3,10 @@ import glob
 
 # Load the new JSON files from push
 resources = []
-datasets_path = 'datasets/*.json'
-linkedservice_path = 'linkedServices/*.json'
-pipeline_path = 'pipelines/*.json'
-integrationRuntime_path = 'integrationRuntimes/*.json'
+datasets_path = 'dataset/*.json'
+linkedservice_path = 'linkedService/*.json'
+pipeline_path = 'pipeline/*.json'
+integrationRuntime_path = 'integrationRuntime/*.json'
 
 linkedservice_json_files = glob.glob(linkedservice_path)
 for json_file in linkedservice_json_files:
@@ -39,13 +39,14 @@ for json_file in pipeline_json_files:
 
 with open('ARM-Templates/base.datafactory.json', 'r') as arm_template_file:
     arm_template = json.load(arm_template_file)
+    factory_name = arm_template['parameters']['factoryName']
 
 # Update ARM template with new resources
 for resource in resources:
     arm_template['resources'].append({
         "type": f"Microsoft.DataFactory/factories/{resource['type']}",
         "apiVersion": "2018-06-01",
-        "name": f"[concat(parameters('factoryName'), '/', {resource['name']})]",
+        "name": f"{factory_name}/{resource['name']}",
         "properties": resource['properties']
     })
 
